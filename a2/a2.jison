@@ -39,43 +39,43 @@
 
 %%
 
-program : exp "EOF"   { return JSON.stringify($1); }
+program : a "EOF"   { return JSON.stringify($1); }
         ;
 
-exp
-        : term
+a
+        : b
           {return $1;}
         ;
-        term
-        : factor
+b
+        : c
           {$$ = $1;}
-        | term "PLUS" factor //good
+        | b "PLUS" c //good
           {$$ = $1 + $3;}
-        | term "MINUS" factor //good
+        | b "MINUS" c //good
           {$$ = $1 - $3;}
-        | term "TIMES" factor //good
+        | b "TIMES" c //good
           {$$ = $1 * $3;}
-        | term "DIV" factor //good
+        | b "DIV" c //good
           {$$ = Math.floor($1 / $3);}
-        | term "MOD" factor //good
+        | b "MOD" c //good
           {$$ = $1 % $3;}
-        | term "LT" factor //good
+        | b "LT" c //good
           {$$ = $1 < $3;}
-        | term "GT" factor //good
+        | b "GT" c //good
           {$$ = $1 > $3;}
-        | term "BNOT" //TODO errors out
+        | b "BNOT" //TODO errors out
           {$$ = ~$1;}
-        | term "OR" factor //good
+        | b "OR" c //good
           {$$ = $1 | $3;}
-        | term "AND" factor //good
+        | b "AND" c //good
           {$$ = $1 & $3;}
-        | term "XOR" factor //good
+        | b "XOR" c //good
           {$$ = $1 ^ $3;}
         ;
-        factor
+c
         : "NUMBER"
           {$$ = Number($1);} //good
-        | "LPAREN" exp "RPAREN"
+        | "LPAREN" a "RPAREN"
           {$$ = $2;}
         ;
         
