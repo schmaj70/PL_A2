@@ -1,11 +1,10 @@
 /* 
     description: CS 331 - Spring 2021 - A2
 
-    your names: _____________________
+    your names: Jeffrey Schmadebeck
 
-                _____________________
+                Cole ???
                   
-                _____________________
 */
 
 // lexical section of the grammar 
@@ -40,8 +39,43 @@
 
 %%
 
-program : a "EOF"   { return JSON.stringify($1); }
+program : exp "EOF"   { return JSON.stringify($1); }
         ;
 
-a :
-  
+exp
+        : term
+          {return $1;}
+        ;
+        term
+        : factor
+          {$$ = $1;}
+        | term "PLUS" factor //good
+          {$$ = $1 + $3;}
+        | term "MINUS" factor //good
+          {$$ = $1 - $3;}
+        | term "TIMES" factor //good
+          {$$ = $1 * $3;}
+        | term "DIV" factor //good
+          {$$ = Math.floor($1 / $3);}
+        | term "MOD" factor //good
+          {$$ = $1 % $3;}
+        | term "LT" factor //good
+          {$$ = $1 < $3;}
+        | term "GT" factor //good
+          {$$ = $1 > $3;}
+        | term "BNOT" //TODO errors out
+          {$$ = ~$1;}
+        | term "OR" factor //good
+          {$$ = $1 | $3;}
+        | term "AND" factor //good
+          {$$ = $1 & $3;}
+        | term "XOR" factor //good
+          {$$ = $1 ^ $3;}
+        ;
+        factor
+        : "NUMBER"
+          {$$ = Number($1);} //good
+        | "LPAREN" exp "RPAREN"
+          {$$ = $2;}
+        ;
+        
