@@ -43,10 +43,10 @@ program : a "EOF"   { return JSON.stringify($1); }
         ;
 
 a
-  : b
+  : "LPAREN" b "RPAREN"
     {$$ = $1;}
-  | b "GT" a //good
-    {$$ = $1 > $3;}
+  | "LPAREN" b "GT" a "RPAREN"//good
+    {$$ = $2 > $4;}
   ;
 b
   : c
@@ -96,7 +96,7 @@ f
 g
   : "NUMBER"
     {$$ = Number($1);} //good
-  | "LPAREN" a "RPAREN"
-    {$$ = $2;}
+  | a //"LPAREN" a //"RPAREN"
+    {$$ = $1;} //$2
   ;
         
