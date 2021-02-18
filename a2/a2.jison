@@ -3,7 +3,7 @@
 
     your names: Jeffrey Schmadebeck
 
-                Cole ???
+                Cole Krajewski
                   
 */
 
@@ -43,60 +43,60 @@ program : a "EOF"   { return JSON.stringify($1); }
         ;
 
 a
-  : "LPAREN" b "RPAREN"
-    {$$ = $1;}
-  | "LPAREN" b "GT" a "RPAREN"//good
-    {$$ = $2 > $4;}
+  :  b
+    {$$ = [['a', $1], $1];}
+  | b "GT" a
+    {$$ = [['a', $1, '>', $3], $1 > $3];}
   ;
 b
   : c
-    {$$ = $1;}
-  | c "LT" d //good
-    {$$ = $1 < $3;}
+    {$$ =[['b', $1], $1];}
+  | c "LT" d
+    {$$ = [['b', $1, '<', $3],$1 < $3];}
   ;
 
 c
   : d
-    {$$ = $1;}
-  | "BNOT" d //good
-    {$$ = ~$1;}
+    {$$ = [['c', $1],$1];}
+  | "BNOT" d
+    {$$ = [['c', '~', $2], ~$2];}
   ;
 
 d
   : e
     {$$ = $1;}
-  | d "OR" e //good
+  | d "OR" e
     {$$ = $1 | $3;}
-  | d "AND" e //good
+  | d "AND" e 
     {$$ = $1 & $3;}
-  | d "XOR" e //good
+  | d "XOR" e 
     {$$ = $1 ^ $3;}
   ;
 
 e
   : f
     {$$ = $1;}
-  | f "PLUS" e //good
+  | f "PLUS" e 
     {$$ = $1 + $3;}
-  | f "MINUS" e //good
+  | f "MINUS" e 
     {$$ = $1 - $3;}
   ;
 
 f
   : g
     {$$ = $1;}
-  | f "TIMES" g //good
+  | f "TIMES" g 
     {$$ = $1 * $3;}
-  | f "DIV" g //good
+  | f "DIV" g 
     {$$ = Math.floor($1 / $3);}
-  | f "MOD" g //good
+  | f "MOD" g 
     {$$ = $1 % $3;}
   ;
 
 g
   : "NUMBER"
-    {$$ = Number($1);} //good
-  | a //"LPAREN" a //"RPAREN"
-    {$$ = $1;} //$2
+    {$$ = Number($1);} 
+  | "LPAREN" a "RPAREN"
+    {$$ = $2;} //$2
   ;
         
