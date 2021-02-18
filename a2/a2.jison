@@ -43,39 +43,60 @@ program : a "EOF"   { return JSON.stringify($1); }
         ;
 
 a
-        : b
-          {return $1;}
-        ;
+  : b
+    {$$ = $1;}
+  | b "GT" a //good
+    {$$ = $1 > $3;}
+  ;
 b
-        : c
-          {$$ = $1;}
-        | b "PLUS" c //good
-          {$$ = $1 + $3;}
-        | b "MINUS" c //good
-          {$$ = $1 - $3;}
-        | b "TIMES" c //good
-          {$$ = $1 * $3;}
-        | b "DIV" c //good
-          {$$ = Math.floor($1 / $3);}
-        | b "MOD" c //good
-          {$$ = $1 % $3;}
-        | b "LT" c //good
-          {$$ = $1 < $3;}
-        | b "GT" c //good
-          {$$ = $1 > $3;}
-        | b "BNOT" //TODO errors out
-          {$$ = ~$1;}
-        | b "OR" c //good
-          {$$ = $1 | $3;}
-        | b "AND" c //good
-          {$$ = $1 & $3;}
-        | b "XOR" c //good
-          {$$ = $1 ^ $3;}
-        ;
+  : c
+    {$$ = $1;}
+  | c "LT" d //good
+    {$$ = $1 < $3;}
+  ;
+
 c
-        : "NUMBER"
-          {$$ = Number($1);} //good
-        | "LPAREN" a "RPAREN"
-          {$$ = $2;}
-        ;
+  : d
+    {$$ = $1;}
+  | "BNOT" d //TODO errors out
+    {$$ = ~$1;}
+  ;
+
+d
+  : e
+    {$$ = $1;}
+  | d "OR" e //good
+    {$$ = $1 | $3;}
+  | d "AND" e //good
+    {$$ = $1 & $3;}
+  | d "XOR" e //good
+    {$$ = $1 ^ $3;}
+  ;
+
+e
+  : f
+    {$$ = $1;}
+  | f "PLUS" e //good
+    {$$ = $1 + $3;}
+  | f "MINUS" e //good
+    {$$ = $1 - $3;}
+  ;
+
+f
+  : g
+    {$$ = $1;}
+  | f "TIMES" g //good
+    {$$ = $1 * $3;}
+  | f "DIV" g //good
+    {$$ = Math.floor($1 / $3);}
+  | f "MOD" g //good
+    {$$ = $1 % $3;}
+  ;
+
+g
+  : "NUMBER"
+    {$$ = Number($1);} //good
+  | "LPAREN" a "RPAREN"
+    {$$ = $2;}
+  ;
         
