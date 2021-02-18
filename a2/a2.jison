@@ -58,7 +58,7 @@ b
 c
   : d
     {$$ = $1;}
-  | "BNOT" d //TODO errors out
+  | "BNOT" d //good
     {$$ = ~$1;}
   ;
 
