@@ -1,11 +1,9 @@
 /********************************************
    CS 331 - A3
 
-   Your names  :  ________________________
-
-                  ________________________
-
-                  ________________________
+   Your names  :  Jeffrey Schmadebeck
+   
+                  Cole Krajewski
 
  ********************************************/
 
@@ -17,29 +15,42 @@ if ( ! exports ) {
 
 var consecutiveSum = function (ns,sum)
 {
-
-    /* to be completed */
+    if( fp.isNull(ns) )
+        return false;
+    else if( fp.isNull( fp.tl(ns) ) )
+        return false;
+    else if( fp.isEq(fp.add( fp.hd(ns), fp.hd(fp.tl(ns) )), sum ))
+        return true;
+    else
+        return consecutiveSum( fp.tl(ns), sum );
     
 };
 
 var addIfNew = function(ns,n)
 {
-
-    /* to be completed */
+    if(fp.isNull(ns))
+        return fp.makeList(n);
+    else if( fp.isEq(fp.hd(ns), n))
+        return ns;
+    else
+        return fp.cons(fp.hd(ns), addIfNew(fp.tl(ns), n));
     
 };
 
 var removeDuplicates = function (ns)
 {
-
-    /* to be completed */
-    
+    if(fp.isNull(ns))
+        return [ ];
+    else if(fp.isNull( fp.tl(ns) ))
+        return ns;
+    else if(fp.isEq(fp.hd(ns), fp.hd(fp.tl(ns) )))
+        return removeDuplicates(fp.tl(ns));
+    else
+        return addIfNew(removeDuplicates( fp.tl(ns) ),  fp.hd(ns) );   
 };
 
 var fillIn = function(n1, n2)
 {
-
-    /* to be completed */
     if(fp.isEq(n1,n2))
         return fp.makeList(n1);
     else if(fp.isLT(n1,n2))
@@ -51,7 +62,6 @@ var fillIn = function(n1, n2)
 
 var removeLast = function(tree)
 {
-    /* to be completed */
     if( fp.isNull(tree) )
         return [ ];
     else if( fp.isNull( fp.tl(tree) ) )
@@ -64,8 +74,6 @@ var removeLast = function(tree)
 
 var intersperse = function(ms,ns)
 {
-
-    /* to be completed */
     if( fp.isNull(ms) )
         return ns;
     else if( fp.isNull(ns) )
