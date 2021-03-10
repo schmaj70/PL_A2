@@ -2,8 +2,8 @@ var fp = require('./fp');
 
 /****************************************************************
 
-   Your names:  ______________________
-                ______________________ 
+   Your names:  Cole Krajewski
+                Jeffrey Schmadebeck
                 ______________________ 
 
  ****************************************************************/
@@ -14,8 +14,12 @@ if ( ! exports ) {
 
 var filter = function (pred,lst)
 {
-
-    /* to be completed */
+    return fp.reduce(function(a,x){
+        if(pred(x))
+            return fp.cons(x,a);
+        else
+            return a;
+    }, lst, []);
 
 };
 
@@ -23,38 +27,44 @@ var filter = function (pred,lst)
 var map = function (f,lst)
 {
 
-    /* to be completed */
+    return fp.reduceRight(function(x,a){
+        return fp.cons(f(x),a)
+    }, lst, [])
     
 };
 
 var flatten = function (lsts)
 {
-
-    /* to be completed */
+    return fp.reduceRight(function(hd, x) { return fp.reduceRight(fp.cons, hd, x)}, lsts, []);
     
 };
 
 var compose = function (lst)
 {
-
     /* to be completed */
-    
+    if(fp.isNull(fp.tl(lst))){
+        return fp.hd(lst);
+    }
+    else
+        return fp.reduce(fp.compose, fp.tl(lst), fp.hd(lst));
 };
 
 var maxOfMins = function (lsts)
 {
-    var mapper =
-        1; /* delete and replace this line */   
+    var mapper = function(lst) {
+        return fp.reduce(fp.min, fp.tl(lst), fp.hd(lst)); //return min from given list
+    } 
 
-    var reducer =
-        2; /* delete and replace this line */
+    var reducer = function(n1, n2){
+        return fp.max(n1, n2); //returns biggest number 
+    } 
 
     return fp.reduce(
-        3 /* delete and replace this line */
+        reducer //reducer
         ,       
-        4 /* delete and replace this line */
+        fp.map(mapper,lsts) //fp.map(mapper, lsts)
         ,       
-        5 /* delete and replace this line */
+        fp.hd(fp.hd(lsts))
     );
 };
 
