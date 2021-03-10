@@ -41,7 +41,7 @@ var flatten = function (lsts)
 
 var compose = function (lst)
 {
-    /* to be completed */
+   
     if(fp.isNull(fp.tl(lst))){
         return fp.hd(lst);
     }
